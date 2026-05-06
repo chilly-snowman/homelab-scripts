@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+OUT_DIR="/var/www/html/api"
+OUT_FILE="${OUT_DIR}/status.json"
+TMP_FILE="$(mktemp)"
+
+mkdir -p "$OUT_DIR"
+
+HOSTNAME="$(hostname)"
+NOW_ISO="$(date -Is)"
+UPTIME_PRETTY="$(uptime -p 2>/dev/null || true)"
+LOAD_AVG="$(awk '{print $1" "$2" "$3}' /proc/loadavg)"
+IPV4="$(ip -4 addr show scope global | awk '/inet /{print $2}' | cut -d/ -f1 | head -n1)"
+KERNEL="$(uname -r)"
+NGINX_ACTIVE="$(systemctl is-active nginx 2>/dev/null || true)"
+SSH_ACTIVE="$(systemctl is-active ssh 2>/dev/null || true)"
+NETDATA_ACTIVE="$(systemctl is-active netdata 2>/dev/null || true)"
+
+# Memory (MiB)
+MEM_TOTAL="$(awk '/MemTotal/ {print int($2/1024)}' /proc/meminfo)"
+MEM_AVAILABLE="$(awk '/MemAvailable/ {print int($2/1024)}' /proc/meminfo)"
+MEM_USED="$((MEM_TOTAL - MEM_AVAILABLE))"
+
+# Disk (root filesystem)
+DISK_LINE="$(df -h / | awk 'NR==2 {print $2" "$3" "$4" "$5}')"
+DISK_TOTAL="$(echo "$DISK_LINE" | awk '{print $1}')"
+DISK_USED="$(echo "$DISK_LINE" | awk '{print $2}')"
+DISK_AVAIL="$(echo "$DISK_LINE" | awk '{print $3}')"
+DISK_USEP="$(echo "$DISK_LINE" | awk '{print $4}')"
+
+# CPU temp (C) if available
+CPU_TEMP_C="$(sensors 2>/dev/null | awk '/Package id 0:/ {gsub("\\+|°C","",$4); print $4; exit}' || true)"
+if [[ -z "${CPU_TEMP_C}" ]]; then CPU_TEMP_C="null"; fi
+
+cat > "$TMP_FILE" <<JSON
+{
+  "hostname": "$(printf '%s' "$HOSTNAME")",
+  "updated": "$(printf '%s' "$NOW_ISO")",
+  "uptime": "$(printf '%s' "$UPTIME_PRETTY")",
+  "load_avg": "$(printf '%s' "$LOAD_AVG")",
+  "ipv4": "$(printf '%s' "$IPV4")",
+  "kernel": "$(printf '%s' "$KERNEL")",
+  "memory_mib": {
+    "total": $MEM_TOTAL,
+    "used": $MEM_USED,
+    "available": $MEM_AVAILABLE
+  },
+  "disk_root": {
+    "total": "$(printf '%s' "$DISK_TOTAL")",
+    "used": "$(printf '%s' "$DISK_USED")",
+    "available": "$(printf '%s' "$DISK_AVAIL")",
+    "used_percent": "$(printf '%s' "$DISK_USEP")"
+  },
+  "cpu_temp_c": $CPU_TEMP_C,
+  "services": {
+    "nginx": "$(printf '%s' "$NGINX_ACTIVE")",
+    "ssh": "$(printf '%s' "$SSH_ACTIVE")",
+    "netdata": "$(printf '%s' "$NETDATA_ACTIVE")"
+  }
+}
+JSON
+
+sudo mv "$TMP_FILE" "$OUT_FILE"
+sudo chmod 644 "$OUT_FILE"
