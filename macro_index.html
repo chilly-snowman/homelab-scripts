@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Macro Dashboard</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:       #0a0c0f;
+      --surface:  #111418;
+      --surface2: #161b22;
+      --border:   #1e2530;
+      --border2:  #2a3444;
+      --accent:   #00d4ff;
+      --accent2:  #ff6b35;
+      --accent3:  #39ff14;
+      --accent4:  #f5c518;
+      --accent5:  #a78bfa;
+      --accent6:  #fb923c;
+      --muted:    #4a5568;
+      --text:     #e2e8f0;
+      --subtext:  #8896a7;
+      --neg:      #ff4757;
+      --pos:      #2ed573;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+      padding: 32px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper { position: relative; z-index: 1; max-width: 1600px; margin: 0 auto; }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border2);
+    }
+    .header-left h1 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.5px;
+    }
+    .header-left p {
+      font-size: 12px;
+      color: var(--subtext);
+      margin-top: 6px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .header-right {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+      line-height: 1.8;
+    }
+    .header-right span { color: var(--subtext); }
+
+    /* ── Section dividers ── */
+    .section {
+      margin: 48px 0 20px 0;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .section-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--bg);
+      background: var(--section-color, var(--accent));
+      padding: 4px 12px;
+      border-radius: 3px;
+      white-space: nowrap;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, var(--section-color, var(--accent)) 0%, var(--border) 60%, transparent 100%);
+      opacity: 0.4;
+    }
+    .section-desc {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ── Callout cards ── */
+    .callouts {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .callout {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.15s;
+      cursor: default;
+    }
+    .callout::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent-color, var(--accent));
+    }
+    .callout::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 80px; height: 80px;
+      background: radial-gradient(circle at bottom right, var(--accent-color, var(--accent)) 0%, transparent 70%);
+      opacity: 0.05;
+    }
+    .callout:hover {
+      border-color: var(--accent-color, var(--accent));
+      transform: translateY(-2px);
+    }
+    .callout-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--subtext);
+      margin-bottom: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .callout-value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--accent-color, var(--accent));
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+    .callout-unit {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .callout-date {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      opacity: 0.7;
+    }
+    .delta {
+      display: inline-block;
+      font-size: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      margin-left: 6px;
+    }
+    .delta.pos { color: var(--pos); }
+    .delta.neg { color: var(--neg); }
+
+    /* ── Chart grid ── */
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+      gap: 16px;
+    }
+    .charts.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .chart-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px;
+      transition: border-color 0.2s;
+    }
+    .chart-card:hover { border-color: var(--border2); }
+    .chart-card.wide { grid-column: 1 / -1; }
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 18px;
+    }
+    .chart-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--subtext);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .chart-latest {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .chart-canvas-wrap { position: relative; height: 200px; }
+
+    /* ── Census ── */
+    .census-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .census-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .census-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--accent4);
+    }
+    .census-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--subtext);
+      font-family: 'IBM Plex Mono', monospace;
+      margin-bottom: 14px;
+    }
+    .census-value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--accent4);
+      letter-spacing: -1px;
+    }
+    .census-sub {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 10px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* ── Loading ── */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      gap: 16px;
+    }
+    .loading-title {
+      font-family: 'IBM Plex Mono', monospace;
+      color: var(--accent);
+      font-size: 14px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .loading-bar {
+      width: 200px;
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .loading-bar-inner {
+      height: 100%;
+      background: var(--accent);
+      animation: load 1.5s ease-in-out infinite;
+    }
+    @keyframes load {
+      0% { width: 0%; margin-left: 0; }
+      50% { width: 60%; margin-left: 20%; }
+      100% { width: 0%; margin-left: 100%; }
+    }
+    .blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    footer {
+      margin-top: 60px;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="loading-title">Loading Macro Data<span class="blink">_</span></div>
+  <div class="loading-bar"><div class="loading-bar-inner"></div></div>
+</div>
+
+<div class="wrapper" style="display:none" id="app">
+  <header>
+    <div class="header-left">
+      <h1>// MACRO DASHBOARD</h1>
+      <p id="updated-ts">—</p>
+    </div>
+    <div class="header-right">
+      mbp-linux · 192.168.12.36<br>
+      <span id="clock">—</span>
+    </div>
+  </header>
+
+  <!-- Key Indicators -->
+  <div class="section">
+    <div class="section-header" style="--section-color: #00d4ff">
+      <div class="section-tag">Key Indicators</div>
+      <div class="section-line"></div>
+      <div class="section-desc">Live · FRED / BLS / Census</div>
+    </div>
+    <div class="callouts" id="callouts"></div>
+  </div>
+
+  <!-- Rates -->
+  <div class="section">
+    <div class="section-header" style="--section-color: #00d4ff">
+      <div class="section-tag" style="background:#00d4ff">Rates &amp; Monetary Policy</div>
+      <div class="section-line" style="--section-color:#00d4ff"></div>
+      <div class="section-desc">Fed Funds · Treasuries · M2</div>
+    </div>
+    <div class="charts" id="charts-rates"></div>
+  </div>
+
+  <!-- Labor -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-tag" style="background:#ff6b35">Labor Market</div>
+      <div class="section-line" style="--section-color:#ff6b35"></div>
+      <div class="section-desc">Unemployment · Payrolls · Job Openings</div>
+    </div>
+    <div class="charts" id="charts-labor"></div>
+  </div>
+
+  <!-- Growth -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-tag" style="background:#60a5fa">Growth &amp; Prices</div>
+      <div class="section-line" style="--section-color:#60a5fa"></div>
+      <div class="section-desc">GDP · CPI · PCE</div>
+    </div>
+    <div class="charts" id="charts-growth"></div>
+  </div>
+
+  <!-- Housing -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-tag" style="background:#06d6a0">Housing &amp; Sentiment</div>
+      <div class="section-line" style="--section-color:#06d6a0"></div>
+      <div class="section-desc">Housing Starts · Consumer Sentiment</div>
+    </div>
+    <div class="charts" id="charts-housing"></div>
+  </div>
+
+  <!-- Census -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-tag" style="background:#f5c518">Census Data</div>
+      <div class="section-line" style="--section-color:#f5c518"></div>
+      <div class="section-desc">ACS 1-Year Estimates · 2022</div>
+    </div>
+    <div class="census-grid" id="census-cards"></div>
+  </div>
+
+  <footer>
+    <span>Sources: Federal Reserve (FRED) · Bureau of Labor Statistics · US Census Bureau</span>
+    <span>Refreshes daily via cron · mbp-linux</span>
+  </footer>
+</div>
+
+<script>
+// ── Clock ────────────────────────────────────────────────────────────────────
+function updateClock() {
+  document.getElementById('clock').textContent = new Date().toLocaleTimeString();
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// ── Chart defaults ────────────────────────────────────────────────────────────
+Chart.defaults.color = '#8896a7';
+Chart.defaults.font.family = "'IBM Plex Mono', monospace";
+Chart.defaults.font.size = 10;
+
+function makeChart(canvasId, labels, values, color) {
+  const ctx = document.getElementById(canvasId).getContext('2d');
+  const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+  gradient.addColorStop(0, color + '40');
+  gradient.addColorStop(1, color + '00');
+  return new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        borderColor: color,
+        borderWidth: 1.5,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: color,
+        pointHoverBorderColor: '#0a0c0f',
+        pointHoverBorderWidth: 2,
+        fill: true,
+        backgroundColor: gradient,
+        tension: 0.3,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#161b22',
+          borderColor: color,
+          borderWidth: 1,
+          padding: 12,
+          titleFont: { size: 11 },
+          bodyFont: { size: 12, weight: '600' },
+          callbacks: {
+            title: items => items[0].label,
+            label: item => `  ${item.raw}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: '#1e2530', drawBorder: false },
+          ticks: { maxTicksLimit: 7, maxRotation: 0, color: '#4a5568' }
+        },
+        y: {
+          grid: { color: '#1e2530', drawBorder: false },
+          ticks: { maxTicksLimit: 5, color: '#4a5568' }
+        }
+      }
+    }
+  });
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function fmt(val, decimals=2) {
+  if (val === null || val === undefined) return '—';
+  return Number(val).toFixed(decimals);
+}
+function fmtLarge(val) {
+  if (!val) return '—';
+  if (val >= 1000000) return (val/1000000).toFixed(2) + 'T';
+  if (val >= 1000) return (val/1000).toFixed(1) + 'K';
+  return val.toLocaleString();
+}
+function fmtMoney(val) {
+  if (!val) return '—';
+  return '$' + val.toLocaleString();
+}
+function delta(series) {
+  if (!series || series.length < 2) return null;
+  return series[series.length-1].value - series[series.length-2].value;
+}
+function deltaEl(d, suffix='') {
+  if (d === null || d === undefined) return '';
+  const sign = d >= 0 ? '+' : '';
+  const cls = d >= 0 ? 'pos' : 'neg';
+  return `<span class="delta ${cls}">${sign}${d.toFixed(2)}${suffix}</span>`;
+}
+
+function addCallout(container, label, value, unit, date, color, d, suffix='') {
+  const el = document.createElement('div');
+  el.className = 'callout';
+  el.style.setProperty('--accent-color', color);
+  el.innerHTML = `
+    <div class="callout-label">${label}</div>
+    <div class="callout-value">${value}</div>
+    <div class="callout-unit">${unit}${deltaEl(d, suffix)}</div>
+    <div class="callout-date">${date || ''}</div>
+  `;
+  container.appendChild(el);
+}
+
+function addChartCard(container, id, title, latestVal, color, series, wide=false) {
+  const labels = series.map(s => s.date);
+  const values = series.map(s => s.value);
+  const card = document.createElement('div');
+  card.className = 'chart-card' + (wide ? ' wide' : '');
+  card.innerHTML = `
+    <div class="chart-header">
+      <div class="chart-title">${title}</div>
+      <div class="chart-latest" style="color:${color}">${latestVal}</div>
+    </div>
+    <div class="chart-canvas-wrap">
+      <canvas id="${id}"></canvas>
+    </div>
+  `;
+  container.appendChild(card);
+  makeChart(id, labels, values, color);
+}
+
+// ── Render ────────────────────────────────────────────────────────────────────
+async function render() {
+  const res = await fetch('/api/macro.json', { cache: 'no-store' });
+  const d = await res.json();
+  const f = d.fred;
+
+  document.getElementById('updated-ts').textContent =
+    'Data as of: ' + new Date(d.updated).toLocaleString();
+
+  // ── Callout cards ─────────────────────────────────────────────────────────
+  const callouts = document.getElementById('callouts');
+  const cards = [
+    { key: 'fed_funds',      color: '#00d4ff', suffix: '%',  decimals: 2, valFn: v => fmt(v, 2) },
+    { key: 'unemployment',   color: '#ff6b35', suffix: '%',  decimals: 1, valFn: v => fmt(v, 1) },
+    { key: 'dgs10',          color: '#39ff14', suffix: '%',  decimals: 2, valFn: v => fmt(v, 2) },
+    { key: 'dgs2',           color: '#a78bfa', suffix: '%',  decimals: 2, valFn: v => fmt(v, 2) },
+    { key: 't10y2y',         color: '#f5c518', suffix: '%',  decimals: 2, valFn: v => fmt(v, 2) },
+    { key: 'cpi',            color: '#ff4757', suffix: '',   decimals: 1, valFn: v => fmt(v, 1) },
+    { key: 'pce',            color: '#ffd166', suffix: '',   decimals: 1, valFn: v => fmt(v, 1) },
+    { key: 'gdp',            color: '#60a5fa', suffix: 'B',  decimals: 0, valFn: v => fmtLarge(v) },
+    { key: 'm2',             color: '#00b4d8', suffix: 'B',  decimals: 0, valFn: v => fmtLarge(v) },
+    { key: 'payrolls',       color: '#34d399', suffix: 'K',  decimals: 0, valFn: v => fmtLarge(v) },
+    { key: 'sentiment',      color: '#fb923c', suffix: '',   decimals: 1, valFn: v => fmt(v, 1) },
+    { key: 'housing_starts', color: '#06d6a0', suffix: 'K',  decimals: 0, valFn: v => fmt(v, 0) },
+  ];
+
+  cards.forEach(c => {
+    const s = f[c.key];
+    if (!s || !s.latest) return;
+    const dv = delta(s.series);
+    addCallout(
+      callouts,
+      s.label,
+      c.valFn(s.latest.value),
+      s.unit,
+      s.latest.date,
+      c.color,
+      dv,
+      c.suffix
+    );
+  });
+
+  // BLS job openings callout
+  const jo = d.bls?.job_openings?.series;
+  if (jo && jo.length > 0) {
+    const last = jo[jo.length - 1];
+    const dv = jo.length > 1 ? last.value - jo[jo.length - 2].value : null;
+    addCallout(callouts, 'Job Openings', fmtLarge(last.value), 'K', last.date, '#fb923c', dv, 'K');
+  }
+
+  // ── Rates ─────────────────────────────────────────────────────────────────
+  const rates = document.getElementById('charts-rates');
+  addChartCard(rates, 'c-fedfunds',  'Fed Funds Rate',     fmt(f.fed_funds.latest?.value) + '%',  '#00d4ff', f.fed_funds.series);
+  addChartCard(rates, 'c-dgs10',    '10-Year Treasury',    fmt(f.dgs10.latest?.value) + '%',      '#39ff14', f.dgs10.series);
+  addChartCard(rates, 'c-dgs2',     '2-Year Treasury',     fmt(f.dgs2.latest?.value) + '%',       '#a78bfa', f.dgs2.series);
+  addChartCard(rates, 'c-spread',   '10Y-2Y Yield Spread', fmt(f.t10y2y.latest?.value) + '%',     '#f5c518', f.t10y2y.series);
+  addChartCard(rates, 'c-m2',       'M2 Money Supply',     fmtLarge(f.m2.latest?.value) + 'B',    '#00b4d8', f.m2.series);
+
+  // ── Labor ─────────────────────────────────────────────────────────────────
+  const labor = document.getElementById('charts-labor');
+  addChartCard(labor, 'c-unrate',   'Unemployment Rate',   fmt(f.unemployment.latest?.value, 1) + '%', '#ff6b35', f.unemployment.series);
+  addChartCard(labor, 'c-payrolls', 'Nonfarm Payrolls',    fmtLarge(f.payrolls.latest?.value) + 'K',  '#34d399', f.payrolls.series);
+  if (jo && jo.length > 0) {
+    addChartCard(labor, 'c-jobopenings', 'Job Openings (BLS)', fmtLarge(jo[jo.length-1]?.value) + 'K', '#fb923c', jo);
+  }
+
+  // ── Growth & Prices ───────────────────────────────────────────────────────
+  const growth = document.getElementById('charts-growth');
+  addChartCard(growth, 'c-gdp',   'Real GDP (Quarterly)',  fmtLarge(f.gdp.latest?.value) + 'B',  '#60a5fa', f.gdp.series);
+  addChartCard(growth, 'c-cpi',   'CPI',                   fmt(f.cpi.latest?.value, 1),           '#ff4757', f.cpi.series);
+  addChartCard(growth, 'c-pce',   'PCE Inflation Index',   fmt(f.pce.latest?.value, 1),           '#ffd166', f.pce.series);
+  const cpiu = d.bls?.cpi_u?.series;
+  if (cpiu && cpiu.length > 0) {
+    addChartCard(growth, 'c-cpiu', 'CPI-U (BLS)',          fmt(cpiu[cpiu.length-1]?.value, 1),    '#ef476f', cpiu);
+  }
+
+  // ── Housing & Sentiment ───────────────────────────────────────────────────
+  const housing = document.getElementById('charts-housing');
+  addChartCard(housing, 'c-houst',     'Housing Starts',             fmtLarge(f.housing_starts.latest?.value) + 'K', '#06d6a0', f.housing_starts.series);
+  addChartCard(housing, 'c-sentiment', 'Consumer Sentiment (UMich)', fmt(f.sentiment.latest?.value, 1),              '#fb923c', f.sentiment.series);
+
+  // ── Census ────────────────────────────────────────────────────────────────
+  const census = document.getElementById('census-cards');
+  const inc = d.census?.median_income;
+  if (inc?.value) {
+    const el = document.createElement('div');
+    el.className = 'census-card';
+    el.innerHTML = `
+      <div class="census-label">Median Household Income</div>
+      <div class="census-value">${fmtMoney(inc.value)}</div>
+      <div class="census-sub">ACS 1-Year Estimate · ${inc.year}</div>
+    `;
+    census.appendChild(el);
+  }
+  const hu = d.census?.housing_units;
+  if (hu?.value) {
+    const el = document.createElement('div');
+    el.className = 'census-card';
+    el.innerHTML = `
+      <div class="census-label">Total Housing Units</div>
+      <div class="census-value">${(hu.value/1e6).toFixed(2)}M</div>
+      <div class="census-sub">ACS 1-Year Estimate · ${hu.year}</div>
+    `;
+    census.appendChild(el);
+  }
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+}
+
+render().catch(err => {
+  document.getElementById('loading').innerHTML = `
+    <div class="loading-title" style="color:#ff4757">ERROR</div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8896a7;margin-top:12px">${err.message}</div>
+  `;
+});
+</script>
+</body>
+</html>
