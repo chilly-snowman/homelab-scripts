@@ -1,0 +1,11 @@
+[Unit]
+Description=Yarr RSS Reader
+After=network.target
+
+[Service]
+User=zane
+ExecStart=/home/zane/yarr -addr 0.0.0.0:7070
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
