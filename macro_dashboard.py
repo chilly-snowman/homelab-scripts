@@ -74,6 +74,13 @@ def fred_on_date(series_id, date):
             pass
     return None
 
+def to_billions(series):
+    return [{"date": o["date"], "value": o["value"] / 1000} for o in series]
+
+def val_to_billions(obs):
+    if not obs: return obs
+    return {"date": obs["date"], "value": obs["value"] / 1000}
+
 def yoy_pct(series):
     if len(series) < 13:
         return []
@@ -202,9 +209,9 @@ def build_census():
 # ── Debt ──────────────────────────────────────────────────────────────────────
 def build_debt():
     print("  Fetching debt data...")
-    debt_series  = fred_series("GFDEBTN", limit=500, observation_start="2000-01-01")
-    debt_latest  = fred_latest("GFDEBTN")
-    debt_feb2000 = fred_on_date("GFDEBTN", "2000-02-01")
+    debt_series  = to_billions(fred_series("GFDEBTN", limit=500, observation_start="2000-01-01"))
+    debt_latest  = val_to_billions(fred_latest("GFDEBTN"))
+    debt_feb2000 = val_to_billions(fred_on_date("GFDEBTN", "2000-02-01"))
 
     debt_added_raw = None
     debt_added_pct = None
@@ -212,8 +219,8 @@ def build_debt():
         debt_added_raw = round(debt_latest["value"] - debt_feb2000["value"], 2)
         debt_added_pct = round((debt_latest["value"] - debt_feb2000["value"]) / debt_feb2000["value"] * 100, 2)
 
-    household_debt   = fred_series("HHMSDODNS",      limit=500, observation_start="2000-01-01")
-    household_latest = fred_latest("HHMSDODNS")
+    household_debt   = to_billions(fred_series("HHMSDODNS", limit=500, observation_start="2000-01-01"))
+    household_latest = val_to_billions(fred_latest("HHMSDODNS"))
     cc_debt          = fred_series("REVOLSL",         limit=500, observation_start="2000-01-01")
     cc_latest        = fred_latest("REVOLSL")
     consumer_debt    = fred_series("DTCTHFNM",        limit=500, observation_start="2000-01-01")

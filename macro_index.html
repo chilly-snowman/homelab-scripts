@@ -8,19 +8,18 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg:       #0a0c0f;
-      --surface:  #111418;
-      --surface2: #161b22;
-      --border:   #1e2530;
-      --border2:  #2a3444;
-      --accent:   #00d4ff;
-      --debt-color: #ff2d55;
+      --bg:           #0a0c0f;
+      --surface:      #111418;
+      --border:       #1e2530;
+      --border2:      #2a3444;
+      --accent:       #00d4ff;
+      --debt-color:   #ff2d55;
       --census-color: #f5c518;
-      --muted:    #4a5568;
-      --text:     #e2e8f0;
-      --subtext:  #8896a7;
-      --neg:      #ff4757;
-      --pos:      #2ed573;
+      --muted:        #4a5568;
+      --text:         #e2e8f0;
+      --subtext:      #8896a7;
+      --neg:          #ff4757;
+      --pos:          #2ed573;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -33,331 +32,169 @@
     }
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background-image:
         linear-gradient(rgba(0,212,255,0.025) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0,212,255,0.025) 1px, transparent 1px);
       background-size: 48px 48px;
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
     .wrapper { position: relative; z-index: 1; max-width: 1600px; margin: 0 auto; }
 
-    /* ── Header ── */
+    /* Header */
     header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 40px;
-      padding-bottom: 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 40px; padding-bottom: 20px;
       border-bottom: 2px solid var(--border2);
     }
     .header-left h1 {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 32px;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: -1px;
+      font-size: 32px; font-weight: 700;
+      color: var(--accent); letter-spacing: -1px;
     }
     .header-left .data-ts {
-      font-size: 15px;
-      color: var(--text);
-      margin-top: 8px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-weight: 600;
+      font-size: 15px; color: var(--text);
+      margin-top: 8px; font-family: 'IBM Plex Mono', monospace; font-weight: 600;
     }
-    .header-right {
-      font-family: 'IBM Plex Mono', monospace;
-      text-align: right;
-    }
-    #clock {
-      font-size: 36px;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: -1px;
-    }
-    .server-label {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 4px;
-    }
+    .header-right { font-family: 'IBM Plex Mono', monospace; text-align: right; }
+    #clock { font-size: 36px; font-weight: 700; color: var(--accent); letter-spacing: -1px; }
+    .server-label { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
-    /* ── Section ── */
+    /* Section */
     .section { margin: 56px 0 24px 0; }
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
+    .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
     .section-tag {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 15px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--bg);
+      font-size: 15px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: var(--bg);
       background: var(--s-color, var(--accent));
-      padding: 10px 24px;
-      border-radius: 4px;
-      white-space: nowrap;
+      padding: 10px 24px; border-radius: 4px; white-space: nowrap;
     }
     .section-line {
-      flex: 1;
-      height: 2px;
+      flex: 1; height: 2px;
       background: linear-gradient(to right, var(--s-color, var(--accent)), transparent);
       opacity: 0.3;
     }
-    .section-desc {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
+    .section-desc { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--muted); white-space: nowrap; }
 
-    /* ── Callout cards ── */
-    .callouts {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 14px;
-    }
+    /* Callout cards */
+    .callouts { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
     .callout {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 22px 24px 18px;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.2s, transform 0.15s;
-      cursor: pointer;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 22px 24px 18px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.2s, transform 0.15s; cursor: pointer;
     }
     .callout::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--c-color, var(--accent));
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: var(--c-color, var(--accent));
     }
     .callout::after {
-      content: '';
-      position: absolute;
-      bottom: -10px; right: -10px;
+      content: ''; position: absolute; bottom: -10px; right: -10px;
       width: 80px; height: 80px;
       background: radial-gradient(circle, var(--c-color, var(--accent)) 0%, transparent 70%);
       opacity: 0.06;
     }
     .callout:hover { border-color: var(--c-color, var(--accent)); transform: translateY(-2px); }
     .callout-label {
-      font-size: 13px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text);
-      margin-bottom: 12px;
+      font-size: 13px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text); margin-bottom: 12px;
       font-family: 'IBM Plex Mono', monospace;
     }
     .callout-value {
       font-family: 'IBM Plex Mono', monospace;
-      font-size: 42px;
-      font-weight: 700;
+      font-size: 42px; font-weight: 700;
       color: var(--c-color, var(--accent));
-      line-height: 1;
-      letter-spacing: -1px;
+      line-height: 1; letter-spacing: -1px;
     }
-    .callout-unit {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 8px;
-      font-family: 'IBM Plex Mono', monospace;
-    }
-    .callout-date {
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 6px;
-      font-family: 'IBM Plex Mono', monospace;
-      opacity: 0.7;
-    }
+    .callout-unit { font-size: 12px; color: var(--muted); margin-top: 8px; font-family: 'IBM Plex Mono', monospace; }
+    .callout-date { font-size: 11px; color: var(--muted); margin-top: 6px; font-family: 'IBM Plex Mono', monospace; opacity: 0.7; }
     .delta { display: inline-block; font-size: 12px; font-family: 'IBM Plex Mono', monospace; margin-left: 6px; }
     .delta.pos { color: var(--pos); }
     .delta.neg { color: var(--neg); }
-
-    /* toggle on callout */
-    .card-toggle {
-      display: flex;
-      gap: 0;
-      margin-top: 10px;
-      border: 1px solid var(--border2);
-      border-radius: 4px;
-      overflow: hidden;
-      width: fit-content;
-    }
-    .card-toggle button {
-      background: none;
-      border: none;
-      color: var(--muted);
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 10px;
-      padding: 3px 8px;
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-    }
-    .card-toggle button.active {
-      background: var(--c-color, var(--accent));
-      color: var(--bg);
-      font-weight: 700;
-    }
-
-    /* drill-through hint */
-    .drill-hint {
-      font-size: 10px;
-      color: var(--muted);
-      font-family: 'IBM Plex Mono', monospace;
-      margin-top: 8px;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
+    .drill-hint { font-size: 10px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; margin-top: 8px; opacity: 0; transition: opacity 0.2s; }
     .callout:hover .drill-hint { opacity: 1; }
 
-    /* ── Debt I've Seen special card ── */
-    .debt-seen-card {
-      background: var(--surface);
-      border: 2px solid #ff2d55;
-      border-radius: 10px;
-      padding: 24px;
-      position: relative;
-      overflow: hidden;
+    /* Card toggle */
+    .card-toggle { display: flex; gap: 0; margin-top: 10px; border: 1px solid var(--border2); border-radius: 4px; overflow: hidden; width: fit-content; }
+    .card-toggle button {
+      background: none; border: none; color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+      padding: 3px 8px; cursor: pointer; transition: background 0.15s, color 0.15s;
+    }
+    .card-toggle button.active { background: var(--c-color, var(--accent)); color: var(--bg); font-weight: 700; }
+
+    /* Age debt card */
+    .age-debt-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 22px 24px 18px;
+      position: relative; overflow: hidden;
       grid-column: span 2;
     }
-    .debt-seen-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: #ff2d55;
+    .age-debt-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: #e17055;
     }
-    .debt-seen-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text);
-      margin-bottom: 12px;
+    .age-debt-top { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .age-btn-group { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+    .age-btn {
+      background: none; border: 1px solid var(--border2); color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace; font-size: 12px;
+      padding: 5px 14px; border-radius: 4px; cursor: pointer; transition: all 0.15s;
     }
-    .debt-seen-value {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 52px;
-      font-weight: 700;
-      color: #ff2d55;
-      letter-spacing: -2px;
-      line-height: 1;
-    }
-    .debt-seen-sub {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 8px;
-      font-family: 'IBM Plex Mono', monospace;
-    }
+    .age-btn:hover { border-color: #e17055; color: var(--text); }
+    .age-btn.active { background: #e17055; border-color: #e17055; color: var(--bg); font-weight: 700; }
+    .age-value { font-family: 'IBM Plex Mono', monospace; font-size: 42px; font-weight: 700; color: #e17055; letter-spacing: -1px; margin-top: 12px; }
+    .age-sub { font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; margin-top: 6px; }
 
-    /* ── Charts ── */
-    .charts {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
-      gap: 16px;
+    /* Debt seen card */
+    .debt-seen-card {
+      background: var(--surface); border: 2px solid #ff2d55;
+      border-radius: 10px; padding: 22px 24px 18px;
+      position: relative; overflow: hidden; grid-column: span 2;
     }
+    .debt-seen-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #ff2d55; }
+
+    /* Charts */
+    .charts { display: grid; grid-template-columns: repeat(auto-fill, minmax(440px, 1fr)); gap: 16px; }
     .chart-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 22px;
-      transition: border-color 0.2s;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 22px; transition: border-color 0.2s;
     }
     .chart-card:hover { border-color: var(--border2); }
     .chart-card.wide { grid-column: 1 / -1; }
-    .chart-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 12px;
-    }
-    .chart-title {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    .chart-latest {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-
-    /* timeframe selector */
-    .timeframe-bar {
-      display: flex;
-      gap: 4px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
+    .chart-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+    .chart-title { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 700; color: var(--text); text-transform: uppercase; letter-spacing: 0.08em; }
+    .chart-latest { font-family: 'IBM Plex Mono', monospace; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+    .timeframe-bar { display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; }
     .tf-btn {
-      background: none;
-      border: 1px solid var(--border2);
-      color: var(--muted);
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 11px;
-      padding: 3px 10px;
-      border-radius: 3px;
-      cursor: pointer;
-      transition: all 0.15s;
+      background: none; border: 1px solid var(--border2); color: var(--muted);
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+      padding: 3px 10px; border-radius: 3px; cursor: pointer; transition: all 0.15s;
     }
     .tf-btn:hover { border-color: var(--subtext); color: var(--text); }
-    .tf-btn.active {
-      border-color: var(--chart-color, var(--accent));
-      color: var(--chart-color, var(--accent));
-      background: rgba(0,212,255,0.08);
-    }
-
+    .tf-btn.active { border-color: var(--chart-color, var(--accent)); color: var(--chart-color, var(--accent)); background: rgba(255,255,255,0.05); }
     .chart-canvas-wrap { position: relative; height: 220px; }
 
-    /* ── Census grid ── */
-    .census-callouts {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 14px;
-    }
+    /* Census */
+    .census-callouts { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
 
-    /* ── Loading ── */
+    /* Loading */
     #loading {
-      position: fixed; inset: 0;
-      background: var(--bg);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
+      position: fixed; inset: 0; background: var(--bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
       z-index: 100; gap: 20px;
     }
-    .loading-title {
-      font-family: 'IBM Plex Mono', monospace;
-      color: var(--accent); font-size: 16px;
-      letter-spacing: 0.2em; text-transform: uppercase;
-    }
+    .loading-title { font-family: 'IBM Plex Mono', monospace; color: var(--accent); font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase; }
     .loading-bar { width: 240px; height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
     .loading-bar-inner { height: 100%; background: var(--accent); animation: load 1.5s ease-in-out infinite; }
-    @keyframes load {
-      0% { width: 0%; margin-left: 0; }
-      50% { width: 60%; margin-left: 20%; }
-      100% { width: 0%; margin-left: 100%; }
-    }
+    @keyframes load { 0% { width:0%;margin-left:0 } 50% { width:60%;margin-left:20% } 100% { width:0%;margin-left:100% } }
     .blink { animation: blink 1s step-end infinite; }
     @keyframes blink { 50% { opacity: 0; } }
 
     footer {
-      margin-top: 60px; padding: 20px 0;
-      border-top: 1px solid var(--border);
-      font-size: 11px; color: var(--muted);
-      font-family: 'IBM Plex Mono', monospace;
+      margin-top: 60px; padding: 20px 0; border-top: 1px solid var(--border);
+      font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace;
       display: flex; justify-content: space-between;
     }
   </style>
@@ -381,7 +218,6 @@
     </div>
   </header>
 
-  <!-- DEBT -->
   <div class="section">
     <div class="section-header">
       <div class="section-tag" style="background:#ff2d55">National Debt</div>
@@ -392,7 +228,6 @@
     <div class="charts" style="margin-top:16px" id="debt-charts"></div>
   </div>
 
-  <!-- KEY INDICATORS -->
   <div class="section">
     <div class="section-header">
       <div class="section-tag" style="background:#00d4ff">Key Indicators</div>
@@ -402,17 +237,15 @@
     <div class="callouts" id="callouts"></div>
   </div>
 
-  <!-- CENSUS -->
   <div class="section">
     <div class="section-header">
-      <div class="section-tag" style="background:var(--census-color)">Census Snapshot</div>
-      <div class="section-line" style="--s-color:var(--census-color)"></div>
+      <div class="section-tag" style="background:#f5c518">Census Snapshot</div>
+      <div class="section-line" style="--s-color:#f5c518"></div>
       <div class="section-desc">ACS 1-Year Estimates · 2022</div>
     </div>
     <div class="census-callouts" id="census-callouts"></div>
   </div>
 
-  <!-- RATES -->
   <div class="section" id="section-rates">
     <div class="section-header">
       <div class="section-tag" style="background:#00d4ff">Rates &amp; Monetary Policy</div>
@@ -422,7 +255,6 @@
     <div class="charts" id="charts-rates"></div>
   </div>
 
-  <!-- LABOR -->
   <div class="section" id="section-labor">
     <div class="section-header">
       <div class="section-tag" style="background:#ff6b35">Labor Market</div>
@@ -432,7 +264,6 @@
     <div class="charts" id="charts-labor"></div>
   </div>
 
-  <!-- GROWTH -->
   <div class="section" id="section-growth">
     <div class="section-header">
       <div class="section-tag" style="background:#60a5fa">Growth &amp; Prices</div>
@@ -442,17 +273,15 @@
     <div class="charts" id="charts-growth"></div>
   </div>
 
-  <!-- MARKETS -->
   <div class="section" id="section-markets">
     <div class="section-header">
       <div class="section-tag" style="background:#a78bfa">Markets &amp; Commodities</div>
       <div class="section-line" style="--s-color:#a78bfa"></div>
-      <div class="section-desc">S&P 500 · VIX · USD · Oil · Gold</div>
+      <div class="section-desc">S&P 500 · VIX · USD · Oil</div>
     </div>
     <div class="charts" id="charts-markets"></div>
   </div>
 
-  <!-- HOUSING -->
   <div class="section" id="section-housing">
     <div class="section-header">
       <div class="section-tag" style="background:#06d6a0">Housing &amp; Sentiment</div>
@@ -469,37 +298,38 @@
 </div>
 
 <script>
-// ── Clock ────────────────────────────────────────────────────────────────────
-function updateClock() {
-  document.getElementById('clock').textContent = new Date().toLocaleTimeString();
-}
-updateClock();
-setInterval(updateClock, 1000);
+// ── Clock ─────────────────────────────────────────────────────────────────────
+function updateClock() { document.getElementById('clock').textContent = new Date().toLocaleTimeString(); }
+updateClock(); setInterval(updateClock, 1000);
 
-// ── Chart defaults ────────────────────────────────────────────────────────────
 Chart.defaults.color = '#8896a7';
 Chart.defaults.font.family = "'IBM Plex Mono', monospace";
 Chart.defaults.font.size = 12;
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// ── Format helpers ────────────────────────────────────────────────────────────
 function fmt(val, dec=2) {
   if (val === null || val === undefined) return '—';
   return Number(val).toFixed(dec);
 }
-function fmtLarge(val) {
+function fmtComma(val) {
   if (!val && val !== 0) return '—';
-  if (Math.abs(val) >= 1000000) return (val/1000000).toFixed(2) + 'T';
-  if (Math.abs(val) >= 1000)    return (val/1000).toFixed(1) + 'K';
-  return val.toLocaleString();
+  return Number(val).toLocaleString();
+}
+// Input is already in thousands (K). Just show as-is with K suffix.
+function fmtK(val) {
+  if (!val && val !== 0) return '—';
+  if (Math.abs(val) >= 1000) return (val/1000).toFixed(1) + 'M';
+  return val.toFixed(1) + 'K';
+}
+// Input is in billions. Show as T if >= 1000B, else B.
+function fmtB(val) {
+  if (!val && val !== 0) return '—';
+  if (Math.abs(val) >= 1000) return '$' + (val/1000).toFixed(2) + 'T';
+  return '$' + val.toFixed(1) + 'B';
 }
 function fmtMoney(val) {
   if (!val) return '—';
   return '$' + Number(val).toLocaleString();
-}
-function fmtBillions(val) {
-  if (!val) return '—';
-  if (Math.abs(val) >= 1000) return '$' + (val/1000).toFixed(2) + 'T';
-  return '$' + val.toFixed(0) + 'B';
 }
 function delta(series) {
   if (!series || series.length < 2) return null;
@@ -508,28 +338,50 @@ function delta(series) {
 function deltaEl(d, suffix='') {
   if (d === null || d === undefined) return '';
   const sign = d >= 0 ? '+' : '';
-  const cls  = d >= 0 ? 'pos' : 'neg';
+  const cls = d >= 0 ? 'pos' : 'neg';
   return `<span class="delta ${cls}">${sign}${d.toFixed(2)}${suffix}</span>`;
 }
 
-// Filter series by timeframe
+// ── Date filtering ────────────────────────────────────────────────────────────
 function filterSeries(series, tf) {
   if (!series || series.length === 0) return series;
+  if (tf === 'ALL') return series;
   const now = new Date();
   let cutoff;
   switch(tf) {
-    case '6M':  cutoff = new Date(now.getFullYear(), now.getMonth()-6, now.getDate()); break;
-    case '1Y':  cutoff = new Date(now.getFullYear()-1, now.getMonth(), now.getDate()); break;
-    case '3Y':  cutoff = new Date(now.getFullYear()-3, now.getMonth(), now.getDate()); break;
-    case '5Y':  cutoff = new Date(now.getFullYear()-5, now.getMonth(), now.getDate()); break;
+    case '6M':  cutoff = new Date(now.getFullYear(), now.getMonth()-6,  now.getDate()); break;
+    case '1Y':  cutoff = new Date(now.getFullYear()-1,  now.getMonth(), now.getDate()); break;
+    case '3Y':  cutoff = new Date(now.getFullYear()-3,  now.getMonth(), now.getDate()); break;
+    case '5Y':  cutoff = new Date(now.getFullYear()-5,  now.getMonth(), now.getDate()); break;
     case '10Y': cutoff = new Date(now.getFullYear()-10, now.getMonth(), now.getDate()); break;
-    default:    return series; // ALL
+    default:    return series;
   }
   return series.filter(s => new Date(s.date) >= cutoff);
 }
 
+// ── Smart date label formatter ────────────────────────────────────────────────
+function dateTickCallback(tf) {
+  return function(val, idx, ticks) {
+    const label = this.getLabelForValue(val);
+    if (!label) return '';
+    const parts = label.split('-');
+    if (tf === '6M' || tf === '1Y') {
+      // Show Mon YYYY e.g. "Jan 2024"
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const m = parseInt(parts[1], 10) - 1;
+      return months[m] + ' ' + parts[0];
+    } else {
+      // Show year only, but only on Jan (month change to new year)
+      const m = parseInt(parts[1], 10);
+      if (m === 1 || idx === 0) return parts[0];
+      return '';
+    }
+  };
+}
+
 // ── Chart factory ─────────────────────────────────────────────────────────────
-function makeChart(ctx, labels, values, color) {
+function buildChart(canvas, labels, values, color, tf) {
+  const ctx = canvas.getContext('2d');
   const gradient = ctx.createLinearGradient(0, 0, 0, 220);
   gradient.addColorStop(0, color + '40');
   gradient.addColorStop(1, color + '00');
@@ -558,38 +410,29 @@ function makeChart(ctx, labels, values, color) {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: '#161b22',
-          borderColor: color,
-          borderWidth: 1,
-          padding: 14,
-          titleFont: { size: 12 },
-          bodyFont: { size: 14, weight: '600' },
-          callbacks: {
-            title: items => items[0].label,
-            label: item => `  ${item.raw}`
-          }
+          backgroundColor: '#161b22', borderColor: color, borderWidth: 1, padding: 14,
+          titleFont: { size: 12 }, bodyFont: { size: 14, weight: '600' },
+          callbacks: { title: i => i[0].label, label: i => `  ${i.raw}` }
         }
       },
       scales: {
         x: {
           grid: { color: '#1e2530' },
           ticks: {
-            maxTicksLimit: 8, maxRotation: 0,
-            color: '#8896a7', font: { size: 12 }
-          },
-          title: { display: false }
+            maxTicksLimit: tf === '6M' ? 6 : tf === '1Y' ? 12 : 8,
+            maxRotation: 0, color: '#8896a7', font: { size: 12 },
+            callback: dateTickCallback(tf)
+          }
         },
-        y: {
-          grid: { color: '#1e2530' },
-          ticks: { maxTicksLimit: 6, color: '#8896a7', font: { size: 12 } }
-        }
+        y: { grid: { color: '#1e2530' }, ticks: { maxTicksLimit: 6, color: '#8896a7', font: { size: 12 } } }
       }
     }
   });
 }
 
-// ── Chart card with timeframe buttons ────────────────────────────────────────
+// ── Chart card with timeframe buttons ─────────────────────────────────────────
 function addChartCard(container, id, title, latestVal, color, fullSeries, defaultTf='5Y') {
+  if (!fullSeries || fullSeries.length === 0) return;
   const card = document.createElement('div');
   card.className = 'chart-card';
   card.style.setProperty('--chart-color', color);
@@ -607,27 +450,23 @@ function addChartCard(container, id, title, latestVal, color, fullSeries, defaul
   `;
   container.appendChild(card);
 
-  const ctx = document.getElementById(id).getContext('2d');
-  let chart = makeChart(ctx, ...seriesToData(filterSeries(fullSeries, defaultTf)), color);
+  const canvas = document.getElementById(id);
+  const filtered = filterSeries(fullSeries, defaultTf);
+  let chart = buildChart(canvas, filtered.map(s=>s.date), filtered.map(s=>s.value), color, defaultTf);
 
   document.getElementById(`tf-${id}`).addEventListener('click', e => {
     const btn = e.target.closest('.tf-btn');
     if (!btn) return;
+    const tf = btn.dataset.tf;
     document.querySelectorAll(`#tf-${id} .tf-btn`).forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    const filtered = filterSeries(fullSeries, btn.dataset.tf);
-    const [labels, values] = seriesToData(filtered);
-    chart.data.labels = labels;
-    chart.data.datasets[0].data = values;
-    chart.update();
+    const f = filterSeries(fullSeries, tf);
+    chart.destroy();
+    chart = buildChart(canvas, f.map(s=>s.date), f.map(s=>s.value), color, tf);
   });
 }
 
-function seriesToData(series) {
-  return [series.map(s => s.date), series.map(s => s.value)];
-}
-
-// ── Callout card ─────────────────────────────────────────────────────────────
+// ── Callout helpers ───────────────────────────────────────────────────────────
 function addCallout(container, label, value, unit, date, color, d, suffix='', targetId=null, extraHtml='') {
   const el = document.createElement('div');
   el.className = 'callout';
@@ -640,64 +479,54 @@ function addCallout(container, label, value, unit, date, color, d, suffix='', ta
     ${extraHtml}
     ${targetId ? '<div class="drill-hint">↓ click to view chart</div>' : ''}
   `;
-  if (targetId) {
-    el.addEventListener('click', () => {
-      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-  }
+  if (targetId) el.addEventListener('click', e => {
+    if (e.target.tagName === 'BUTTON') return;
+    document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
   container.appendChild(el);
   return el;
 }
 
-// ── Census callout ────────────────────────────────────────────────────────────
 function addCensusCallout(container, item) {
   if (!item || item.value === null || item.value === undefined) return;
   const el = document.createElement('div');
   el.className = 'callout';
-  el.style.setProperty('--c-color', 'var(--census-color)');
-
+  el.style.setProperty('--c-color', '#f5c518');
   let displayVal = item.value;
-  if (item.unit === 'USD') displayVal = fmtMoney(item.value);
+  if (item.unit === 'USD')    displayVal = fmtMoney(item.value);
   else if (item.unit === '%') displayVal = item.value + '%';
   else if (item.unit === 'people') displayVal = (item.value/1e6).toFixed(1) + 'M';
-  else if (item.unit === 'units') displayVal = (item.value/1e6).toFixed(2) + 'M';
-  else displayVal = item.value;
-
+  else if (item.unit === 'units')  displayVal = (item.value/1e6).toFixed(2) + 'M';
   el.innerHTML = `
     <div class="callout-label">${item.label}</div>
-    <div class="callout-value" style="font-size:34px">${displayVal}</div>
+    <div class="callout-value" style="font-size:32px">${displayVal}</div>
     <div class="callout-unit">${item.unit}</div>
     <div class="callout-date">2022 ACS</div>
   `;
   container.appendChild(el);
 }
 
-// ── Render ────────────────────────────────────────────────────────────────────
+// ── Main render ───────────────────────────────────────────────────────────────
 async function render() {
   const res = await fetch('/api/macro.json', { cache: 'no-store' });
   const d = await res.json();
+  window._macroData = d;
   const f = d.fred;
   const debt = d.debt;
   const census = d.census;
 
-  document.getElementById('updated-ts').textContent =
-    'Data as of: ' + new Date(d.updated).toLocaleString();
+  document.getElementById('updated-ts').textContent = 'Data as of: ' + new Date(d.updated).toLocaleString();
 
   // ── DEBT CALLOUTS ─────────────────────────────────────────────────────────
   const debtCallouts = document.getElementById('debt-callouts');
 
-  // Federal debt
   if (debt.federal_debt?.latest) {
     const dv = delta(debt.federal_debt.series);
-    addCallout(debtCallouts,
-      'Total Federal Debt',
-      fmtBillions(debt.federal_debt.latest.value),
-      'Quarterly', debt.federal_debt.latest.date,
-      '#ff2d55', dv, 'B', 'c-feddebt'
-    );
+    addCallout(debtCallouts, 'Total Federal Debt', fmtB(debt.federal_debt.latest.value),
+      'Quarterly', debt.federal_debt.latest.date, '#ff2d55', dv, 'B', 'c-feddebt');
   }
 
-  // Debt I've Seen — special card with toggle
+  // Debt I've Seen
   const ds = debt.debt_since_2000;
   if (ds?.added_raw !== null && ds?.added_raw !== undefined) {
     const el = document.createElement('div');
@@ -705,107 +534,98 @@ async function render() {
     el.style.setProperty('--c-color', '#ff2d55');
     el.innerHTML = `
       <div class="callout-label">Debt I've Seen <span style="font-size:10px;color:var(--muted)">(since Feb 1, 2000)</span></div>
-      <div class="debt-seen-value" id="ds-value">${fmtBillions(ds.added_raw)}</div>
+      <div class="callout-value" id="ds-value">${fmtB(ds.added_raw)}</div>
       <div class="callout-unit" id="ds-unit">added since Feb 2000</div>
-      <div class="callout-date">Baseline: ${fmtBillions(ds.baseline?.value)} → Now: ${fmtBillions(ds.latest?.value)}</div>
+      <div class="callout-date">Baseline: ${fmtB(ds.baseline?.value)} → Now: ${fmtB(ds.latest?.value)}</div>
       <div class="card-toggle" style="margin-top:12px">
-        <button class="active" onclick="toggleDebtSeen('raw',${ds.added_raw},${ds.added_pct})">RAW</button>
-        <button onclick="toggleDebtSeen('pct',${ds.added_raw},${ds.added_pct})">%</button>
+        <button class="active" data-mode="raw">RAW</button>
+        <button data-mode="pct">%</button>
       </div>
     `;
+    el.querySelector('.card-toggle').addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      el.querySelectorAll('.card-toggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const valEl = document.getElementById('ds-value');
+      const unitEl = document.getElementById('ds-unit');
+      if (btn.dataset.mode === 'raw') {
+        valEl.textContent = fmtB(ds.added_raw);
+        unitEl.textContent = 'added since Feb 2000';
+      } else {
+        valEl.textContent = ds.added_pct.toFixed(2) + '%';
+        unitEl.textContent = '% increase since Feb 2000';
+      }
+    });
     debtCallouts.appendChild(el);
   }
 
-  // Household debt
   if (debt.household_debt?.latest) {
     const dv = delta(debt.household_debt.series);
-    addCallout(debtCallouts,
-      'Total Household Debt', fmtBillions(debt.household_debt.latest.value),
-      'B USD', debt.household_debt.latest.date,
-      '#ff6b6b', dv, 'B', 'c-hhdebt'
-    );
+    addCallout(debtCallouts, 'Total Household Debt', fmtB(debt.household_debt.latest.value),
+      'B USD', debt.household_debt.latest.date, '#ff6b6b', dv, 'B', 'c-hhdebt');
   }
-
-  // Credit card debt
   if (debt.credit_card_debt?.latest) {
     const dv = delta(debt.credit_card_debt.series);
-    addCallout(debtCallouts,
-      'Revolving Consumer Credit', fmtBillions(debt.credit_card_debt.latest.value),
-      'B USD', debt.credit_card_debt.latest.date,
-      '#ff9f43', dv, 'B', 'c-ccdebt'
-    );
+    addCallout(debtCallouts, 'Revolving Consumer Credit', fmtB(debt.credit_card_debt.latest.value),
+      'B USD', debt.credit_card_debt.latest.date, '#ff9f43', dv, 'B', 'c-ccdebt');
   }
-
-  // Debt to GDP
   if (debt.debt_to_gdp?.latest) {
     const dv = delta(debt.debt_to_gdp.series);
-    addCallout(debtCallouts,
-      'Federal Debt / GDP', fmt(debt.debt_to_gdp.latest.value, 1) + '%',
-      '%', debt.debt_to_gdp.latest.date,
-      '#ee5a24', dv, '%', 'c-debtgdp'
-    );
+    addCallout(debtCallouts, 'Federal Debt / GDP', fmt(debt.debt_to_gdp.latest.value,1)+'%',
+      '%', debt.debt_to_gdp.latest.date, '#ee5a24', dv, '%', 'c-debtgdp');
   }
-
-  // Debt service ratio
   if (debt.debt_service_ratio?.latest) {
     const dv = delta(debt.debt_service_ratio.series);
-    addCallout(debtCallouts,
-      'Household Debt Service', fmt(debt.debt_service_ratio.latest.value, 2) + '%',
-      '% of disposable income', debt.debt_service_ratio.latest.date,
-      '#c0392b', dv, '%', 'c-dsr'
-    );
+    addCallout(debtCallouts, 'Household Debt Service', fmt(debt.debt_service_ratio.latest.value,2)+'%',
+      '% of disposable income', debt.debt_service_ratio.latest.date, '#c0392b', dv, '%', 'c-dsr');
   }
 
-  // Age group debt cards
-  if (debt.debt_by_age) {
-    debt.debt_by_age.forEach(item => {
-      addCallout(debtCallouts,
-        `Avg Debt · ${item.range}`, fmtMoney(item.value),
-        'USD · 2022 SCF', '', '#e17055', null, ''
-      );
+  // Age debt — single interactive card
+  if (debt.debt_by_age?.length) {
+    const ages = debt.debt_by_age;
+    const ageCard = document.createElement('div');
+    ageCard.className = 'age-debt-card';
+    const btnHtml = ages.map((a,i) =>
+      `<button class="age-btn${i===0?' active':''}" data-idx="${i}">${a.range}</button>`
+    ).join('');
+    ageCard.innerHTML = `
+      <div class="callout-label">Avg Consumer Debt by Age <span style="font-size:10px;color:var(--muted)">2022 Fed SCF</span></div>
+      <div class="age-debt-top">
+        <div class="age-btn-group">${btnHtml}</div>
+      </div>
+      <div class="age-value" id="age-val">${fmtMoney(ages[0].value)}</div>
+      <div class="age-sub" id="age-sub">Age ${ages[0].range} · 2022 Survey of Consumer Finances</div>
+    `;
+    ageCard.querySelectorAll('.age-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        ageCard.querySelectorAll('.age-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const a = ages[parseInt(btn.dataset.idx)];
+        document.getElementById('age-val').textContent = fmtMoney(a.value);
+        document.getElementById('age-sub').textContent = `Age ${a.range} · 2022 Survey of Consumer Finances`;
+      });
     });
+    debtCallouts.appendChild(ageCard);
   }
 
   // ── DEBT CHARTS ───────────────────────────────────────────────────────────
   const debtCharts = document.getElementById('debt-charts');
   if (debt.federal_debt?.series?.length)
-    addChartCard(debtCharts, 'c-feddebt', 'Total Federal Debt',
-      fmtBillions(debt.federal_debt.latest?.value), '#ff2d55', debt.federal_debt.series);
+    addChartCard(debtCharts, 'c-feddebt', 'Total Federal Debt', fmtB(debt.federal_debt.latest?.value), '#ff2d55', debt.federal_debt.series, '10Y');
   if (debt.household_debt?.series?.length)
-    addChartCard(debtCharts, 'c-hhdebt', 'Household Debt',
-      fmtBillions(debt.household_debt.latest?.value), '#ff6b6b', debt.household_debt.series);
+    addChartCard(debtCharts, 'c-hhdebt', 'Household Debt', fmtB(debt.household_debt.latest?.value), '#ff6b6b', debt.household_debt.series);
   if (debt.credit_card_debt?.series?.length)
-    addChartCard(debtCharts, 'c-ccdebt', 'Revolving Consumer Credit',
-      fmtBillions(debt.credit_card_debt.latest?.value), '#ff9f43', debt.credit_card_debt.series);
+    addChartCard(debtCharts, 'c-ccdebt', 'Revolving Consumer Credit', fmtB(debt.credit_card_debt.latest?.value), '#ff9f43', debt.credit_card_debt.series);
   if (debt.debt_to_gdp?.series?.length)
-    addChartCard(debtCharts, 'c-debtgdp', 'Federal Debt to GDP %',
-      fmt(debt.debt_to_gdp.latest?.value,1)+'%', '#ee5a24', debt.debt_to_gdp.series);
+    addChartCard(debtCharts, 'c-debtgdp', 'Federal Debt to GDP %', fmt(debt.debt_to_gdp.latest?.value,1)+'%', '#ee5a24', debt.debt_to_gdp.series);
   if (debt.debt_service_ratio?.series?.length)
-    addChartCard(debtCharts, 'c-dsr', 'Household Debt Service Ratio',
-      fmt(debt.debt_service_ratio.latest?.value,2)+'%', '#c0392b', debt.debt_service_ratio.series);
+    addChartCard(debtCharts, 'c-dsr', 'Household Debt Service Ratio', fmt(debt.debt_service_ratio.latest?.value,2)+'%', '#c0392b', debt.debt_service_ratio.series);
 
   // ── KEY INDICATOR CALLOUTS ────────────────────────────────────────────────
   const callouts = document.getElementById('callouts');
-  const indicators = [
-    { key: 'fed_funds',       color: '#00d4ff', suffix: '%',    dec: 2, valFn: v=>fmt(v,2),   target: 'c-fedfunds' },
-    { key: 'unemployment',    color: '#ff6b35', suffix: '%',    dec: 1, valFn: v=>fmt(v,1),   target: 'c-unrate' },
-    { key: 'dgs10',           color: '#39ff14', suffix: '%',    dec: 2, valFn: v=>fmt(v,2),   target: 'c-dgs10' },
-    { key: 'dgs2',            color: '#a78bfa', suffix: '%',    dec: 2, valFn: v=>fmt(v,2),   target: 'c-dgs2' },
-    { key: 't10y2y',          color: '#f5c518', suffix: '%',    dec: 2, valFn: v=>fmt(v,2),   target: 'c-spread' },
-    { key: 'gdp',             color: '#60a5fa', suffix: 'B',    dec: 0, valFn: v=>fmtLarge(v),target: 'c-gdp' },
-    { key: 'm2',              color: '#00b4d8', suffix: 'B',    dec: 0, valFn: v=>fmtLarge(v),target: 'c-m2' },
-    { key: 'payrolls',        color: '#34d399', suffix: 'K',    dec: 0, valFn: v=>fmtLarge(v),target: 'c-payrolls' },
-    { key: 'sp500',           color: '#c084fc', suffix: '',     dec: 0, valFn: v=>Math.round(v).toLocaleString(), target: 'c-sp500' },
-    { key: 'vix',             color: '#fb7185', suffix: '',     dec: 1, valFn: v=>fmt(v,1),   target: 'c-vix' },
-    { key: 'oil',             color: '#fbbf24', suffix: '',     dec: 2, valFn: v=>fmt(v,2),   target: 'c-oil' },
-    { key: 'gold',            color: '#fde68a', suffix: '',     dec: 0, valFn: v=>Math.round(v).toLocaleString(), target: 'c-gold' },
-    { key: 'hourly_earnings', color: '#6ee7b7', suffix: '',     dec: 2, valFn: v=>fmt(v,2),   target: 'c-wages' },
-    { key: 'savings_rate',    color: '#67e8f9', suffix: '%',    dec: 1, valFn: v=>fmt(v,1),   target: 'c-savings' },
-    { key: 'sentiment',       color: '#fb923c', suffix: '',     dec: 1, valFn: v=>fmt(v,1),   target: 'c-sentiment' },
-    { key: 'housing_starts',  color: '#06d6a0', suffix: 'K',   dec: 0, valFn: v=>fmt(v,0),   target: 'c-houst' },
-  ];
 
-  // CPI callout with YoY/Index toggle
+  // CPI with toggle
   const cpiS = f.cpi;
   if (cpiS?.yoy_latest) {
     const el = document.createElement('div');
@@ -816,13 +636,28 @@ async function render() {
       <div class="callout-label">CPI Inflation</div>
       <div class="callout-value" id="cpi-val">${fmt(cpiS.yoy_latest.value,1)}%</div>
       <div class="callout-unit" id="cpi-unit">YoY %${deltaEl(dv,'%')}</div>
-      <div class="callout-date">${cpiS.yoy_latest.date}</div>
+      <div class="callout-date" id="cpi-date">${cpiS.yoy_latest.date}</div>
       <div class="card-toggle" style="--c-color:#ff4757">
-        <button class="active" onclick="toggleInflation('cpi','yoy')">YOY%</button>
-        <button onclick="toggleInflation('cpi','index')">INDEX</button>
+        <button class="active" data-mode="yoy">YOY%</button>
+        <button data-mode="index">INDEX</button>
       </div>
       <div class="drill-hint">↓ click to view chart</div>
     `;
+    el.querySelector('.card-toggle').addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      el.querySelectorAll('.card-toggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const valEl = document.getElementById('cpi-val');
+      const unitEl = document.getElementById('cpi-unit');
+      if (btn.dataset.mode === 'yoy' && cpiS.yoy_latest) {
+        valEl.textContent = fmt(cpiS.yoy_latest.value,1) + '%';
+        unitEl.textContent = 'YoY %';
+      } else if (cpiS.latest) {
+        valEl.textContent = fmt(cpiS.latest.value,1);
+        unitEl.textContent = 'Index value';
+      }
+    });
     el.addEventListener('click', e => {
       if (e.target.tagName === 'BUTTON') return;
       document.getElementById('c-cpi')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -830,7 +665,7 @@ async function render() {
     callouts.appendChild(el);
   }
 
-  // PCE callout with YoY/Index toggle
+  // PCE with toggle
   const pceS = f.pce;
   if (pceS?.yoy_latest) {
     const el = document.createElement('div');
@@ -843,11 +678,26 @@ async function render() {
       <div class="callout-unit" id="pce-unit">YoY %${deltaEl(dv,'%')}</div>
       <div class="callout-date">${pceS.yoy_latest.date}</div>
       <div class="card-toggle" style="--c-color:#ffd166">
-        <button class="active" onclick="toggleInflation('pce','yoy')">YOY%</button>
-        <button onclick="toggleInflation('pce','index')">INDEX</button>
+        <button class="active" data-mode="yoy">YOY%</button>
+        <button data-mode="index">INDEX</button>
       </div>
       <div class="drill-hint">↓ click to view chart</div>
     `;
+    el.querySelector('.card-toggle').addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      el.querySelectorAll('.card-toggle button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const valEl = document.getElementById('pce-val');
+      const unitEl = document.getElementById('pce-unit');
+      if (btn.dataset.mode === 'yoy' && pceS.yoy_latest) {
+        valEl.textContent = fmt(pceS.yoy_latest.value,1) + '%';
+        unitEl.textContent = 'YoY %';
+      } else if (pceS.latest) {
+        valEl.textContent = fmt(pceS.latest.value,1);
+        unitEl.textContent = 'Index value';
+      }
+    });
     el.addEventListener('click', e => {
       if (e.target.tagName === 'BUTTON') return;
       document.getElementById('c-pce')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -855,129 +705,98 @@ async function render() {
     callouts.appendChild(el);
   }
 
+  const indicators = [
+    { key:'fed_funds',       color:'#00d4ff', valFn: v=>fmt(v,2),                          unit:'%',      target:'c-fedfunds' },
+    { key:'unemployment',    color:'#ff6b35', valFn: v=>fmt(v,1),                          unit:'%',      target:'c-unrate' },
+    { key:'dgs10',           color:'#39ff14', valFn: v=>fmt(v,2),                          unit:'%',      target:'c-dgs10' },
+    { key:'dgs2',            color:'#a78bfa', valFn: v=>fmt(v,2),                          unit:'%',      target:'c-dgs2' },
+    { key:'t10y2y',          color:'#f5c518', valFn: v=>fmt(v,2),                          unit:'%',      target:'c-spread' },
+    { key:'gdp',             color:'#60a5fa', valFn: v=>fmtB(v),                           unit:'B USD',  target:'c-gdp' },
+    { key:'m2',              color:'#00b4d8', valFn: v=>fmtB(v),                           unit:'B USD',  target:'c-m2' },
+    { key:'payrolls',        color:'#34d399', valFn: v=>fmtK(v),                           unit:'K jobs', target:'c-payrolls' },
+    { key:'sp500',           color:'#c084fc', valFn: v=>fmtComma(Math.round(v)),           unit:'index',  target:'c-sp500' },
+    { key:'vix',             color:'#fb7185', valFn: v=>fmt(v,1),                          unit:'index',  target:'c-vix' },
+    { key:'oil',             color:'#fbbf24', valFn: v=>'$'+fmt(v,2),                      unit:'$/bbl',  target:'c-oil' },
+    { key:'hourly_earnings', color:'#6ee7b7', valFn: v=>'$'+fmt(v,2),                      unit:'$/hr',   target:'c-wages' },
+    { key:'savings_rate',    color:'#67e8f9', valFn: v=>fmt(v,1)+'%',                      unit:'%',      target:'c-savings' },
+    { key:'sentiment',       color:'#fb923c', valFn: v=>fmt(v,1),                          unit:'index',  target:'c-sentiment' },
+    { key:'housing_starts',  color:'#06d6a0', valFn: v=>fmtK(v),                          unit:'K units',target:'c-houst' },
+  ];
+
   indicators.forEach(c => {
     const s = f[c.key];
     if (!s?.latest) return;
     const dv = delta(s.series);
-    addCallout(callouts, s.label, c.valFn(s.latest.value), s.unit,
-      s.latest.date, c.color, dv, c.suffix, c.target);
+    addCallout(callouts, s.label, c.valFn(s.latest.value), c.unit,
+      s.latest.date, c.color, dv, '', c.target);
   });
 
-  // BLS job openings
   const jo = d.bls?.job_openings?.series;
   if (jo?.length) {
     const last = jo[jo.length-1];
     const dv = jo.length > 1 ? last.value - jo[jo.length-2].value : null;
-    addCallout(callouts, 'Job Openings', fmtLarge(last.value)+'K', 'BLS', last.date, '#fb923c', dv, 'K', 'c-jobopenings');
+    addCallout(callouts, 'Job Openings', fmtK(last.value), 'K jobs', last.date, '#fb923c', dv, '', 'c-jobopenings');
   }
 
-  // ── CENSUS CALLOUTS ───────────────────────────────────────────────────────
+  // ── CENSUS ────────────────────────────────────────────────────────────────
   const censusCallouts = document.getElementById('census-callouts');
-  const censusKeys = [
-    'median_household_income','per_capita_income','total_population','median_age',
-    'total_housing_units','homeownership_rate','poverty_rate','median_home_value',
-    'labor_force_participation','bachelors_or_higher','gini_coefficient'
-  ];
-  censusKeys.forEach(k => {
-    if (census[k]) addCensusCallout(censusCallouts, census[k]);
-  });
+  ['median_household_income','per_capita_income','total_population','median_age',
+   'total_housing_units','homeownership_rate','poverty_rate','median_home_value',
+   'labor_force_participation','bachelors_or_higher','gini_coefficient'
+  ].forEach(k => { if (census[k]) addCensusCallout(censusCallouts, census[k]); });
 
-  // ── RATES CHARTS ─────────────────────────────────────────────────────────
+  // ── RATES CHARTS ──────────────────────────────────────────────────────────
   const rates = document.getElementById('charts-rates');
-  addChartCard(rates, 'c-fedfunds', 'Fed Funds Rate',      fmt(f.fed_funds.latest?.value)+'%',  '#00d4ff', f.fed_funds.series);
-  addChartCard(rates, 'c-dgs10',   '10-Year Treasury',     fmt(f.dgs10.latest?.value)+'%',      '#39ff14', f.dgs10.series);
-  addChartCard(rates, 'c-dgs2',    '2-Year Treasury',      fmt(f.dgs2.latest?.value)+'%',       '#a78bfa', f.dgs2.series);
-  addChartCard(rates, 'c-spread',  '10Y-2Y Yield Spread',  fmt(f.t10y2y.latest?.value)+'%',     '#f5c518', f.t10y2y.series);
-  addChartCard(rates, 'c-m2',      'M2 Money Supply',      fmtBillions(f.m2.latest?.value),     '#00b4d8', f.m2.series);
+  addChartCard(rates, 'c-fedfunds', 'Fed Funds Rate',     fmt(f.fed_funds.latest?.value)+'%', '#00d4ff', f.fed_funds.series);
+  addChartCard(rates, 'c-dgs10',   '10-Year Treasury',    fmt(f.dgs10.latest?.value)+'%',     '#39ff14', f.dgs10.series);
+  addChartCard(rates, 'c-dgs2',    '2-Year Treasury',     fmt(f.dgs2.latest?.value)+'%',      '#a78bfa', f.dgs2.series);
+  addChartCard(rates, 'c-spread',  '10Y-2Y Yield Spread', fmt(f.t10y2y.latest?.value)+'%',    '#f5c518', f.t10y2y.series);
+  addChartCard(rates, 'c-m2',      'M2 Money Supply',     fmtB(f.m2.latest?.value),           '#00b4d8', f.m2.series);
 
   // ── LABOR CHARTS ──────────────────────────────────────────────────────────
   const labor = document.getElementById('charts-labor');
-  addChartCard(labor, 'c-unrate',     'Unemployment Rate',   fmt(f.unemployment.latest?.value,1)+'%',  '#ff6b35', f.unemployment.series);
-  addChartCard(labor, 'c-payrolls',   'Nonfarm Payrolls',    fmtLarge(f.payrolls.latest?.value)+'K',   '#34d399', f.payrolls.series);
-  addChartCard(labor, 'c-wages',      'Avg Hourly Earnings', '$'+fmt(f.hourly_earnings.latest?.value,2),'#6ee7b7', f.hourly_earnings.series);
+  addChartCard(labor, 'c-unrate',      'Unemployment Rate',    fmt(f.unemployment.latest?.value,1)+'%', '#ff6b35', f.unemployment.series);
+  addChartCard(labor, 'c-payrolls',    'Nonfarm Payrolls',     fmtK(f.payrolls.latest?.value),          '#34d399', f.payrolls.series);
+  addChartCard(labor, 'c-wages',       'Avg Hourly Earnings',  '$'+fmt(f.hourly_earnings.latest?.value,2),'#6ee7b7', f.hourly_earnings.series);
   if (jo?.length)
-    addChartCard(labor, 'c-jobopenings','Job Openings (BLS)', fmtLarge(jo[jo.length-1]?.value)+'K', '#fb923c', jo);
+    addChartCard(labor, 'c-jobopenings','Job Openings (BLS)',  fmtK(jo[jo.length-1]?.value),            '#fb923c', jo);
   if (f.quit_rate?.series?.length)
-    addChartCard(labor, 'c-quit',      'Quit Rate (JOLTS)',  fmt(f.quit_rate.latest?.value,1)+'%',     '#fbbf24', f.quit_rate.series);
+    addChartCard(labor, 'c-quit',      'Quit Rate (JOLTS)',    fmt(f.quit_rate.latest?.value,1)+'%',     '#fbbf24', f.quit_rate.series);
   if (f.hire_rate?.series?.length)
-    addChartCard(labor, 'c-hire',      'Hire Rate (JOLTS)',  fmt(f.hire_rate.latest?.value,1)+'%',     '#34d399', f.hire_rate.series);
+    addChartCard(labor, 'c-hire',      'Hire Rate (JOLTS)',    fmt(f.hire_rate.latest?.value,1)+'%',     '#34d399', f.hire_rate.series);
 
   // ── GROWTH CHARTS ─────────────────────────────────────────────────────────
   const growth = document.getElementById('charts-growth');
-  addChartCard(growth, 'c-gdp',    'Real GDP (Quarterly)',  fmtBillions(f.gdp.latest?.value),    '#60a5fa', f.gdp.series);
-  addChartCard(growth, 'c-cpi',    'CPI (Index)',           fmt(f.cpi.latest?.value,1),           '#ff4757', f.cpi.series);
-  addChartCard(growth, 'c-pce',    'PCE Inflation (Index)', fmt(f.pce.latest?.value,1),           '#ffd166', f.pce.series);
-  addChartCard(growth, 'c-retail', 'Retail Sales',         fmtBillions(f.retail_sales.latest?.value), '#c084fc', f.retail_sales.series);
-  addChartCard(growth, 'c-indpro', 'Industrial Production',fmt(f.industrial_prod.latest?.value,1),'#67e8f9', f.industrial_prod.series);
+  addChartCard(growth, 'c-gdp',    'Real GDP (Quarterly)',  fmtB(f.gdp.latest?.value),         '#60a5fa', f.gdp.series);
+  addChartCard(growth, 'c-cpi',    'CPI (Index)',           fmt(f.cpi.latest?.value,1),         '#ff4757', f.cpi.series);
+  addChartCard(growth, 'c-pce',    'PCE Inflation (Index)', fmt(f.pce.latest?.value,1),         '#ffd166', f.pce.series);
+  addChartCard(growth, 'c-retail', 'Retail Sales',          fmtB(f.retail_sales.latest?.value), '#c084fc', f.retail_sales.series);
+  addChartCard(growth, 'c-indpro', 'Industrial Production', fmt(f.industrial_prod.latest?.value,1),'#67e8f9', f.industrial_prod.series);
   addChartCard(growth, 'c-savings','Personal Savings Rate', fmt(f.savings_rate.latest?.value,1)+'%','#67e8f9', f.savings_rate.series);
 
   // ── MARKETS CHARTS ────────────────────────────────────────────────────────
   const markets = document.getElementById('charts-markets');
   if (f.sp500?.series?.length)
-    addChartCard(markets, 'c-sp500', 'S&P 500', Math.round(f.sp500.latest?.value).toLocaleString(), '#c084fc', f.sp500.series);
+    addChartCard(markets, 'c-sp500', 'S&P 500',              fmtComma(Math.round(f.sp500.latest?.value)), '#c084fc', f.sp500.series);
   if (f.vix?.series?.length)
-    addChartCard(markets, 'c-vix', 'VIX Volatility Index', fmt(f.vix.latest?.value,1), '#fb7185', f.vix.series);
+    addChartCard(markets, 'c-vix',   'VIX Volatility Index', fmt(f.vix.latest?.value,1),                  '#fb7185', f.vix.series);
   if (f.dollar_index?.series?.length)
-    addChartCard(markets, 'c-dxy', 'USD Index (DXY)', fmt(f.dollar_index.latest?.value,1), '#60a5fa', f.dollar_index.series);
+    addChartCard(markets, 'c-dxy',   'USD Index (DXY)',       fmt(f.dollar_index.latest?.value,1),          '#60a5fa', f.dollar_index.series);
   if (f.oil?.series?.length)
-    addChartCard(markets, 'c-oil', 'WTI Crude Oil ($/bbl)', '$'+fmt(f.oil.latest?.value,2), '#fbbf24', f.oil.series);
-  if (f.gold?.series?.length)
-    addChartCard(markets, 'c-gold', 'Gold Price ($/oz)', '$'+Math.round(f.gold.latest?.value).toLocaleString(), '#fde68a', f.gold.series);
+    addChartCard(markets, 'c-oil',   'WTI Crude Oil ($/bbl)','$'+fmt(f.oil.latest?.value,2),               '#fbbf24', f.oil.series);
 
   // ── HOUSING CHARTS ────────────────────────────────────────────────────────
   const housing = document.getElementById('charts-housing');
-  addChartCard(housing, 'c-houst',     'Housing Starts',            fmtLarge(f.housing_starts.latest?.value)+'K','#06d6a0', f.housing_starts.series);
-  addChartCard(housing, 'c-sentiment', 'Consumer Sentiment (UMich)',fmt(f.sentiment.latest?.value,1),            '#fb923c', f.sentiment.series);
+  addChartCard(housing, 'c-houst',     'Housing Starts',             fmtK(f.housing_starts.latest?.value), '#06d6a0', f.housing_starts.series);
+  addChartCard(housing, 'c-sentiment', 'Consumer Sentiment (UMich)', fmt(f.sentiment.latest?.value,1),     '#fb923c', f.sentiment.series);
 
   document.getElementById('loading').style.display = 'none';
   document.getElementById('app').style.display = 'block';
 }
 
-// ── Toggle: Debt I've Seen ────────────────────────────────────────────────────
-window.toggleDebtSeen = function(mode, raw, pct) {
-  const val  = document.getElementById('ds-value');
-  const unit = document.getElementById('ds-unit');
-  if (!val) return;
-  document.querySelectorAll('.debt-seen-card .card-toggle button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  if (mode === 'raw') {
-    val.textContent  = fmtBillions(raw);
-    unit.textContent = 'added since Feb 2000';
-  } else {
-    val.textContent  = pct.toFixed(2) + '%';
-    unit.textContent = '% increase since Feb 2000';
-  }
-};
-
-// ── Toggle: Inflation YoY/Index ───────────────────────────────────────────────
-window._inflationData = {};
-window.toggleInflation = function(key, mode) {
-  // Store data reference on first call
-  event.target.closest('.card-toggle').querySelectorAll('button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
-  // We re-fetch from the global data store
-  if (!window._macroData) return;
-  const s = window._macroData.fred[key];
-  const valEl  = document.getElementById(`${key}-val`);
-  const unitEl = document.getElementById(`${key}-unit`);
-  if (!valEl) return;
-  if (mode === 'yoy' && s.yoy_latest) {
-    valEl.textContent  = fmt(s.yoy_latest.value, 1) + '%';
-    unitEl.innerHTML   = 'YoY %';
-  } else if (mode === 'index' && s.latest) {
-    valEl.textContent  = fmt(s.latest.value, 1);
-    unitEl.innerHTML   = 'Index value';
-  }
-};
-
-render().then(() => {
-  // store data globally for toggle access
-  fetch('/api/macro.json', { cache: 'no-store' })
-    .then(r => r.json())
-    .then(d => { window._macroData = d; });
-}).catch(err => {
+render().catch(err => {
   document.getElementById('loading').innerHTML = `
-    <div class="loading-title" style="color:#ff4757">ERROR</div>
+    <div style="font-family:'IBM Plex Mono',monospace;color:#ff4757;font-size:16px;letter-spacing:0.1em">ERROR</div>
     <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8896a7;margin-top:12px">${err.message}</div>
   `;
 });
